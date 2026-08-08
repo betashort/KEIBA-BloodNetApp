@@ -1,0 +1,368 @@
+fields:
+  - name: レコード種別ID
+    position: 1
+    length: 2
+    description: '"UM" をセットレコードフォーマットを特定する'
+  - name: データ区分
+    position: 3
+    length: 1
+    default: 0
+    description: "1:新規馬名登録 2:馬名変更 3:再登録(抹消後の再登録) 4:その他更新 9:抹消 0:該当レコード削除"
+  - name: データ作成年月日
+    position: 4
+    length: 8
+    default: 0
+    description: "西暦4桁＋月日各2桁 yyyymmdd 形式"
+  - name: 血統登録番号
+    position: 12
+    length: 10
+    default: 0
+    description: "生年(西暦)4桁＋品種1桁＋数字5桁"
+  - name: 競走馬抹消区分
+    position: 22
+    length: 1
+    default: 0
+    description: "0:現役 1:抹消"
+  - name: 競走馬登録年月日
+    position: 23
+    length: 8
+    default: 0
+    description: "年4桁(西暦)＋月日各2桁 yyyymmdd 形式"
+  - name: 競走馬抹消年月日
+    position: 31
+    length: 8
+    default: 0
+    description: "年4桁(西暦)＋月日各2桁 yyyymmdd 形式"
+  - name: 生年月日
+    position: 39
+    length: 8
+    default: 0
+    description: "年4桁(西暦)＋月日各2桁 yyyymmdd 形式"
+  - name: 馬名
+    position: 47
+    length: 36
+    description: "全角18文字"
+  - name: 馬名半角ｶﾅ
+    position: 83
+    length: 36
+    description: "半角36文字"
+  - name: 馬名欧字
+    position: 119
+    length: 60
+    description: "半角60文字"
+  - name: JRA施設在きゅうフラグ
+    position: 179
+    length: 1
+    description: "0:JRA施設に在きゅうしていない。 1:JRA施設の在きゅうしている。"
+  - name: 予備
+    position: 180
+    length: 19
+    description: "予備"
+  - name: 馬記号コード
+    position: 199
+    length: 2
+    default: 0
+    description: "コード表 2204.馬記号コード参照"
+  - name: 性別コード
+    position: 201
+    length: 1
+    default: 0
+    description: "コード表 2202.性別コード参照"
+  - name: 品種コード
+    position: 202
+    length: 1
+    default: 0
+    description: "コード表 2201.品種コード参照"
+  - name: 毛色コード
+    position: 203
+    length: 2
+    default: 0
+    description: "コード表 2203.毛色コード参照"
+  - name: 3代血統情報
+    position: 205
+    repeat: 14
+    field_length: 46
+    total_length: 644
+    description: "父･母〜母母母の順に設定"
+    subfields:
+      - name: 繁殖登録番号
+        length: 10
+        description: "繁殖馬マスタにリンク"
+      - name: 馬名
+        length: 36
+        description: "全角18文字～半角36文字（全角と半角が混在）"
+  - name: 東西所属コード
+    position: 849
+    length: 1
+    default: 0
+    description: "コード表 2301.東西所属コード参照"
+  - name: 調教師コード
+    position: 850
+    length: 5
+    default: 0
+    description: "調教師マスタへリンク"
+  - name: 調教師名略称
+    position: 855
+    length: 8
+    description: "全角4文字"
+  - name: 招待地域名
+    position: 863
+    length: 20
+    description: "全角10文字"
+  - name: 生産者コード
+    position: 883
+    length: 8
+    default: 0
+    description: "生産者マスタへリンク"
+  - name: 生産者名(法人格無)
+    position: 891
+    length: 72
+    description: "全角36文字～半角72文字（全角と半角が混在）"
+  - name: 産地名
+    position: 963
+    length: 20
+    description: "全角10文字または半角20文字"
+  - name: 馬主コード
+    position: 983
+    length: 6
+    default: 0
+    description: "馬主マスタへリンク"
+  - name: 馬主名(法人格無)
+    position: 989
+    length: 64
+    description: "全角32文字～半角64文字（全角と半角が混在）"
+  - name: 平地本賞金累計
+    position: 1053
+    length: 9
+    default: 0
+    description: "単位:百円（中央の平地本賞金の合計）"
+  - name: 障害本賞金累計
+    position: 1062
+    length: 9
+    default: 0
+    description: "単位:百円（中央の障害本賞金の合計）"
+  - name: 平地付加賞金累計
+    position: 1071
+    length: 9
+    default: 0
+    description: "単位:百円（中央の平地付加賞金の合計）"
+  - name: 障害付加賞金累計
+    position: 1080
+    length: 9
+    default: 0
+    description: "単位:百円（中央の障害付加賞金の合計）"
+  - name: 平地収得賞金累計
+    position: 1089
+    length: 9
+    default: 0
+    description: "単位:百円（中央＋中央以外の平地累積収得賞金）"
+  - name: 障害収得賞金累計
+    position: 1098
+    length: 9
+    default: 0
+    description: "単位:百円（中央＋中央以外の障害累積収得賞金）"
+  - name: 総合着回数
+    position: 1107
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "1着～5着及び着外(6着以下)の回数（中央＋地方＋海外)"
+  - name: 中央合計着回数
+    position: 1125
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "1着～5着及び着外(6着以下)の回数（中央のみ)"
+  - name: 芝直・着回数
+    position: 1143
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・直線コース（中央のみ)"
+  - name: 芝右・着回数
+    position: 1161
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・右回り（中央のみ)"
+  - name: 芝左・着回数
+    position: 1179
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・左回り（中央のみ)"
+  - name: ダ直・着回数
+    position: 1197
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・直線（中央のみ)"
+  - name: ダ右・着回数
+    position: 1215
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・右回り（中央のみ)"
+  - name: ダ左・着回数
+    position: 1233
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・左回り（中央のみ)"
+  - name: 障害・着回数
+    position: 1251
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "障害（中央のみ)"
+  - name: 芝良・着回数
+    position: 1269
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・良馬場（中央のみ)"
+  - name: 芝稍・着回数
+    position: 1287
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・稍重馬場（中央のみ)"
+  - name: 芝重・着回数
+    position: 1305
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・重馬場（中央のみ)"
+  - name: 芝不・着回数
+    position: 1323
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝・不良馬場（中央のみ)"
+  - name: ダ良・着回数
+    position: 1341
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・良馬場（中央のみ)"
+  - name: ダ稍・着回数
+    position: 1359
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・稍重馬場（中央のみ)"
+  - name: ダ重・着回数
+    position: 1377
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・重馬場（中央のみ)"
+  - name: ダ不・着回数
+    position: 1395
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート・不良馬場（中央のみ)"
+  - name: 障良・着回数
+    position: 1413
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "障害・良馬場（中央のみ)"
+  - name: 障稍・着回数
+    position: 1431
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "障害・稍重馬場（中央のみ)"
+  - name: 障重・着回数
+    position: 1449
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "障害・重馬場（中央のみ)"
+  - name: 障不・着回数
+    position: 1467
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "障害・不良馬場（中央のみ)"
+  - name: 芝16下・着回数
+    position: 1485
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝･1600M以下（中央のみ)"
+  - name: 芝22下・着回数
+    position: 1503
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝･1601M以上2200M以下（中央のみ)"
+  - name: 芝22超・着回数
+    position: 1521
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "芝･2201M以上（中央のみ)"
+  - name: ダ16下・着回数
+    position: 1539
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート･1600M以下（中央のみ)"
+  - name: ダ22下・着回数
+    position: 1557
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート･1601M以上2200M以下（中央のみ)"
+  - name: ダ22超・着回数
+    position: 1575
+    repeat: 6
+    field_length: 3
+    total_length: 18
+    default: 0
+    description: "ダート･2201M以上（中央のみ)"
+  - name: 脚質傾向
+    position: 1593
+    repeat: 4
+    field_length: 3
+    total_length: 12
+    default: 0
+    description: "逃げ・先行・差し・追込回数（中央レースのみ)"
+  - name: 登録レース数
+    position: 1605
+    length: 3
+    default: 0
+    description: "JRA-VANに登録されている成績レース数"
+  - name: レコード区切
+    position: 1608
+    length: 2
+    description: "CR/LF"
