@@ -15,7 +15,7 @@
 | [requirements.md](./requirements.md) | 要求仕様・機能要件・非機能要件・データ要件・スコープ |
 | [use_cases.md](./use_cases.md) | 主要ユースケースと画面・操作の想定 |
 
-設計書（データモデル等）は [../02_design](../02_design) を参照。
+設計書（アーキテクチャ・ベース設計・データモデル）は [../02_design](../02_design) を参照。
 
 ## 関連調査メモ
 
@@ -25,14 +25,21 @@
 
 ## 現時点の方針（仮説）
 
-```text
-外部／既存データ（JRA 等）
-        ↓
-PostgreSQL（マスタ・レース結果・集計）
-        ↓ 同期／ETL
-Neo4j（血統・関係探索）
-        ↓
-可視化 UI ／ 分析 API ／（将来）GDS・ML
+```plantuml
+@startuml bloodnet_rd_hypothesis
+!theme plain
+skinparam shadowing false
+
+rectangle "外部／既存データ\n（JRA 等）" as src
+database "PostgreSQL\nマスタ・レース結果・集計" as pg
+database "Neo4j\n血統・関係探索" as neo
+rectangle "可視化 UI\n分析 API\n（将来）GDS・ML" as app
+
+src --> pg
+pg --> neo : 同期／ETL
+neo --> app
+
+@enduml
 ```
 
 - **PostgreSQL**: 馬マスタ、レース結果、数値集計

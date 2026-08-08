@@ -55,19 +55,24 @@
 
 ### 3.1 血統（必須）
 
-向きはどちらかに統一する。推奨案 A（親 → 子）:
+**採用: 案 A（親 → 子）** — [base_design.md](./base_design.md) §4.1 で決定。
 
-```text
-(父:Horse)-[:FATHER_OF]->(子:Horse)
-(母:Horse)-[:MOTHER_OF]->(子:Horse)
+```plantuml
+@startuml bloodnet_pedigree_rels
+!theme plain
+skinparam shadowing false
+
+object "父 :Horse" as sire
+object "母 :Horse" as dam
+object "子 :Horse" as child
+
+sire --> child : FATHER_OF
+dam --> child : MOTHER_OF
+
+@enduml
 ```
 
-推奨案 B（子 → 親）:
-
-```text
-(子:Horse)-[:HAS_FATHER]->(父:Horse)
-(子:Horse)-[:HAS_MOTHER]->(母:Horse)
-```
+（参考・不採用）案 B（子 → 親）: `HAS_FATHER` / `HAS_MOTHER`
 
 **要件**
 
@@ -144,7 +149,6 @@
 
 ## 8. 未決（モデル）
 
-- リレーション向きの最終決定（案 A / B）
 - 号族をプロパティにするか `:Family` ノードにするか
 - セン馬・海外表記ゆれの正規化方針
 - 同一馬の改名履歴を持つか

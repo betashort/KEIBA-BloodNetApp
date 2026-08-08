@@ -108,15 +108,24 @@
 
 技術非依存の論理画面。
 
-```text
-[検索バー]
-    ↓
-[馬候補リスト]
-    ↓
-[血統ビュー]
-  ├ 5代血統表（メイン）
-  ├ クロス一覧
-  └ 馬詳細（属性・父母リンク）
+```plantuml
+@startuml bloodnet_uc_screens
+!theme plain
+skinparam shadowing false
+left to right direction
+
+rectangle "検索バー" as search
+rectangle "馬候補リスト" as list
+rectangle "血統ビュー" as view {
+  rectangle "5代血統表（メイン）" as pedigree
+  rectangle "クロス一覧" as crosses
+  rectangle "馬詳細（属性・父母リンク）" as detail
+}
+
+search --> list
+list --> view
+
+@enduml
 ```
 
 オプション（P2 以降）: 同一馬に対するインタラクティブグラフ（ズーム／パン／ノード選択）。
