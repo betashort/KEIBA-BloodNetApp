@@ -9,6 +9,7 @@
 | [architecture.md](./architecture.md) | システムアーキテクチャ（構成・データフロー・横断関心事） |
 | [base_design.md](./base_design.md) | ベース設計（モジュール・ETL・API・UI・技術仮決め） |
 | [data_model.md](./data_model.md) | グラフデータモデル（ノード／リレーション／属性） |
+| [environment.md](./environment.md) | システム動作環境・開発環境の構築（ホスト、ミドルウェア、Compose） |
 
 ## 読み順（推奨）
 
@@ -16,6 +17,7 @@
 2. [architecture.md](./architecture.md) … どう分割し、どう流すか
 3. [base_design.md](./base_design.md) … モジュールと API／画面の基本形
 4. [data_model.md](./data_model.md) … グラフ上の具体スキーマ
+5. [environment.md](./environment.md) … 何の上で動かし、どう立ち上げるか
 
 ## 関連
 
