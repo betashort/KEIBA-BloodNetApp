@@ -1,0 +1,68 @@
+# BloodNet ローカルデータストア（P0）
+#
+# 使い方（リポジトリルート）:
+#   cp infra/docker/.env.example infra/docker/.env
+#   docker compose --env-file infra/docker/.env -f infra/docker/compose.yaml up -d
+#
+# ポートはホスト側 127.0.0.1 のみ。詳細は doc/02_design/environment.md
+
+name: bloodnet
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bloodnet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bloodnet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bloodnet-dev}
+      POSTGRES_DB: ${POSTGRES_DB:-bloodnet}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - bloodnet
+
+  neo4j:
+    image: neo4j:5.26
+    container_name: bloodnet-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-bloodnet-dev}
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 512m
+    ports:
+      - "127.0.0.1:${NEO4J_HTTP_PORT:-7474}:7474"
+      - "127.0.0.1:${NEO4J_BOLT_PORT:-7687}:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/var/lib/neo4j/import
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    networks:
+      - bloodnet
+
+networks:
+  bloodnet:
+    name: bloodnet
+    driver: bridge
+
+volumes:
+  pg_data:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_import:

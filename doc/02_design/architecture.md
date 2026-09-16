@@ -2,7 +2,7 @@
 
 要求仕様（[../01_rd/requirements.md](../01_rd/requirements.md)）とユースケース（[../01_rd/use_cases.md](../01_rd/use_cases.md)）を満たすためのシステム構成。
 
-データモデルの詳細は [data_model.md](./data_model.md)、コンポーネント責務・API・画面の基本設計は [base_design.md](./base_design.md) を参照。
+データモデルの詳細は [data_model.md](./data_model.md)、コンポーネント責務・API・画面の基本設計は [base_design.md](./base_design.md)、ホスト／ミドルウェア／Compose は [environment.md](./environment.md) を参照。
 
 ---
 
@@ -260,6 +260,8 @@ stop
 
 ## 6. デプロイメント（初期）
 
+バージョン・ポート・メモリ・構築手順の正は [environment.md](./environment.md)。ここでは論理配置のみ示す。
+
 ```plantuml
 @startuml bloodnet_deploy
 !theme plain
@@ -316,11 +318,12 @@ MVP 受け入れ（requirements §7）は **P1 完了** と対応する。
 
 | 領域 | 第一候補 | 備考 |
 | ---- | -------- | ---- |
-| RDB | PostgreSQL | 一次ストア |
-| グラフ DB | Neo4j | 代替は設計レビューで可 |
-| ETL | Python スクリプト or LOAD CSV | 再現性優先 |
-| API | （未確定）REST/JSON | Cypher 隠蔽 |
-| UI | （未確定）SPA 想定 | 技術非依存要件を満たせば可 |
+| RDB | PostgreSQL 16 系 | 一次ストア。イメージは environment で固定 |
+| グラフ DB | Neo4j 5.26 LTS Community | 代替は設計レビューで可。Bloom/GDS は P3 |
+| ETL | Python 3.12+ または LOAD CSV | 再現性優先 |
+| API | （未確定）REST/JSON | Cypher 隠蔽。ポート 8000 |
+| UI | （未確定）SPA 想定 | 技術非依存要件を満たせば可。ポート 5173 |
+| 基盤 | Docker Compose | NF-06。`infra/docker/compose.yaml` |
 
 ---
 
@@ -330,6 +333,7 @@ MVP 受け入れ（requirements §7）は **P1 完了** と対応する。
 | ---- | ---- |
 | [base_design.md](./base_design.md) | モジュール境界、API、画面、ETL の基本設計 |
 | [data_model.md](./data_model.md) | ノード／リレーション／インデックス |
+| [environment.md](./environment.md) | 動作環境・開発環境構築 |
 | [../research/neo4j.md](../research/neo4j.md) | Neo4j 調査 |
 | [../research/posgre2neo4j.md](../research/posgre2neo4j.md) | PG→Neo4j 変換手順メモ |
 | [../research/blood_analytics.md](../research/blood_analytics.md) | 血統分析観点 |

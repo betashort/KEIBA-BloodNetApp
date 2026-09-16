@@ -2,3 +2,17 @@
 *.csv
 *.png
 *.jpg
+
+# 秘密情報・ローカル環境
+.env
+.env.local
+!.env.example
+
+# Python / Node（P0 以降）
+.venv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.DS_Store

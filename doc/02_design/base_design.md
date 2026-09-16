@@ -31,12 +31,12 @@
 
 | 層 | 仮決め | 選定理由 |
 | -- | ------ | -------- |
-| PostgreSQL | 16 系想定 | 既存／蓄積データの一次ストア |
-| Neo4j | 5 系想定 | 血統グラフ・Cypher・調査メモ準拠 |
-| ETL | Python 3 ＋ 公式 Neo4j ドライバ（または LOAD CSV） | PG 直結・冪等 MERGE・手順の文書化が容易 |
+| PostgreSQL | 16 系（`postgres:16-alpine`） | 既存／蓄積データの一次ストア。[environment.md](./environment.md) |
+| Neo4j | 5.26 LTS Community（`neo4j:5.26`） | 血統グラフ・Cypher・調査メモ準拠 |
+| ETL | Python 3.12+ ＋ 公式 Neo4j ドライバ（または LOAD CSV） | PG 直結・冪等 MERGE・手順の文書化が容易 |
 | API | Python（FastAPI 等）または同等の REST | JSON API、型付きスキーマ、ローカル起動が容易 |
-| UI | TypeScript ＋ SPA（React / Vue 等、実装時確定） | 血統表レイアウトと検索 UX |
-| 基盤 | Docker Compose | NF-06 |
+| UI | TypeScript ＋ SPA（React / Vue 等、実装時確定） | 血統表レイアウトと検索 UX。Node.js 22 LTS 以上 |
+| 基盤 | Docker Compose（`infra/docker/compose.yaml`） | NF-06 |
 
 認証情報は `.env`（gitignore）または Compose secrets。リポジトリにパスワードを置かない（NF-07）。
 
@@ -295,9 +295,11 @@ UI は `ancestor_horse_id` 集合で血統表マスをハイライトする（F-
 
 ## 9. 開発環境
 
+詳細（ホスト要件、バージョン固定、ポート、メモリ、手順、トラブルシュート）は [environment.md](./environment.md)。
+
 ```text
-docker compose up
-  → PostgreSQL :5432
+docker compose --env-file infra/docker/.env -f infra/docker/compose.yaml up -d
+  → PostgreSQL 127.0.0.1:5432（サンプル馬マスタを init）
   → Neo4j HTTP :7474 / Bolt :7687
   → API :8000（P1）
   → UI :5173 等（P1）
@@ -305,7 +307,7 @@ docker compose up
 
 | 手順 | 内容 |
 | ---- | ---- |
-| 初回 | Compose 起動 →（サンプル or 実データ）PG 投入 → ETL full → Browser/API で検証 |
+| 初回 | `.env` 作成 → Compose 起動 →（サンプルは自動投入。実データは任意）→ ETL full → Browser/API で検証 |
 | 日常 | API/UI ホットリロード。グラフ破壊時は ETL full 再実行 |
 
 ---
